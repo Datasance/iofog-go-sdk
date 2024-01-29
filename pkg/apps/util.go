@@ -16,7 +16,7 @@ package apps
 import (
 	"fmt"
 
-	"github.com/eclipse-iofog/iofog-go-sdk/v3/pkg/client"
+	"github.com/datasance/iofog-go-sdk/v3/pkg/client"
 )
 
 func validateRoutes(routes []string, microserviceByName map[string]*client.MicroserviceInfo) (routesUUIDs []string, err error) { // nolint:deadcode,unused

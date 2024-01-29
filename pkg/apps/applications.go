@@ -18,7 +18,7 @@ import (
 	"fmt"
 	"net/url"
 
-	"github.com/eclipse-iofog/iofog-go-sdk/v3/pkg/client"
+	"github.com/datasance/iofog-go-sdk/v3/pkg/client"
 	"gopkg.in/yaml.v2"
 )
 
