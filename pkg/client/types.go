@@ -298,10 +298,11 @@ type PublicPort struct {
 // Users
 
 type User struct {
-	Name     string `json:"firstName"`
-	Surname  string `json:"lastName"`
-	Email    string `json:"email"`
-	Password string `json:"password"`
+	Name     		string `json:"firstName"`
+	Surname  		string `json:"lastName"`
+	Email    		string `json:"email"`
+	Password 		string `json:"password"`
+	subscriptionKey string `json:"subscriptionKey"`
 }
 
 type ControllerVersions struct {
