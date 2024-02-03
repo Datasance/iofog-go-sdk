@@ -1,5 +1,5 @@
 ---
-apiVersion: iofog.org/v3
+apiVersion: datasance.com/v1
 kind: Application
 metadata:
   name: func-app

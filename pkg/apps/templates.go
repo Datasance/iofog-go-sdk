@@ -62,7 +62,7 @@ func (exe *applicationTemplateExecutor) init() (err error) {
 
 func (exe *applicationTemplateExecutor) deploy() error {
 	file := IofogHeader{
-		APIVersion: "iofog.org/v3",
+		APIVersion: "datasance.com/v1",
 		Kind:       ApplicationTemplateKind,
 		Metadata: HeaderMetadata{
 			Name: exe.name,
