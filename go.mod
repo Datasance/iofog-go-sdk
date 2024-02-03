@@ -1,4 +1,4 @@
-module github.com/datasance/iofog-go-sdk/v3
+module github.com/datasance/iofog-go-sdk/v3 v3.3.2
 
 go 1.18
 
