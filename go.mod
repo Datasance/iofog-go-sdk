@@ -1,8 +1,6 @@
 module github.com/datasance/iofog-go-sdk/v3
 
-go 1.21
-
-toolchain go1.21.0
+go 1.18
 
 require (
 	github.com/eapache/channels v1.1.0
