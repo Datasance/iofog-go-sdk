@@ -302,7 +302,7 @@ type User struct {
 	Surname  		string `json:"lastName"`
 	Email    		string `json:"email"`
 	Password 		string `json:"password"`
-	subscriptionKey string `json:"subscriptionKey"`
+	SubscriptionKey string `json:"subscriptionKey"`
 }
 
 type ControllerVersions struct {
