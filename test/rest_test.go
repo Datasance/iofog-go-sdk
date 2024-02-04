@@ -57,7 +57,7 @@ func TestNewAndLogin(t *testing.T) {
 		surname:  "Bar",
 	}
 	var err error
-	state.url, err = url.Parse("http://localhost:51121/api/v3")
+	state.url, err = url.Parse("http://localhost:51121/api/v1")
 	if err != nil {
 		t.Error(err)
 	}

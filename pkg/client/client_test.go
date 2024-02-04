@@ -19,7 +19,7 @@ import (
 )
 
 func TestCreation(t *testing.T) {
-	baseURL, err := url.Parse("http://localhost:51121/api/v3")
+	baseURL, err := url.Parse("http://localhost:51121/api/v1")
 	if err != nil {
 		t.Error(err)
 	}
