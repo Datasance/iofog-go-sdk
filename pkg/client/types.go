@@ -305,6 +305,13 @@ type User struct {
 	SubscriptionKey string `json:"subscriptionKey"`
 }
 
+type UserResponse struct {
+	Name     		string `json:"firstName"`
+	Surname  		string `json:"lastName"`
+	Email    		string `json:"email"`
+	SubscriptionKey string `json:"subscriptionKey"`
+}
+
 type ControllerVersions struct {
 	Controller string `json:"controller"`
 	EcnViewer  string `json:"ecnViewer"`

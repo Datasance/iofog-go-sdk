@@ -81,6 +81,14 @@ func NewAndLogin(opt Options, email, password string) (clt *Client, err error) {
 	return
 }
 
+func RefreshUser(opt Options, email, password string) (clt *Client, err error, userResponse UserResponse) {
+	clt = New(opt)
+	if err, userResponse = clt.RefreshUserCtl(LoginRequest{Email: email, Password: password}); err != nil {
+		return err, nil
+	}
+	return nil, userResponse
+}
+
 func NewWithToken(opt Options, token string) (clt *Client, err error) {
 	clt = New(opt)
 	clt.SetAccessToken(token)

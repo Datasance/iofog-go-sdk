@@ -41,6 +41,40 @@ func (clt *Client) Login(request LoginRequest) (err error) {
 	return
 }
 
+func (clt *Client) RefreshUserCtl(request LoginRequest) (err error, userResponse UserResponse ) {
+	// Send request
+	bodyLogin, errLogin := clt.doRequest("POST", "/user/login", request)
+	if errLogin != nil {
+		return errLogin, nil
+	}
+	
+	// Read access token from response
+	var response LoginResponse
+	if errLoginMarshal = json.Unmarshal(bodyLogin, &response); errLoginMarshal != nil {
+		return errLoginMarshal, nil 
+	}
+
+	clt.SetAccessToken(response.AccessToken)
+
+	headers := map[string]string{
+		"Authorization": clt.GetAccessToken(),
+	}
+
+	bodyGetUser, errGetUser := clt.doRequestWithHeaders("GET", "/user/profile", nil, headers)
+
+	if errGetUser != nil {
+		return errGetUser, nil
+	}
+
+	var userResponse UserResponse
+	if errGetUserMarshal = json.Unmarshal(bodyGetUser, &userResponse); errGetUserMarshal != nil {
+		return errGetUserMarshal, nil
+	}
+
+	return nil, userResponse
+
+}
+
 func (clt *Client) UpdateUserPassword(request UpdateUserPasswordRequest) (err error) {
 	// Send request
 	_, err = clt.doRequest("PATCH", "/user/password", request)
