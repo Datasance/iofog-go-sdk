@@ -41,17 +41,18 @@ func (clt *Client) Login(request LoginRequest) (err error) {
 	return
 }
 
-func (clt *Client) RefreshUserSubscriptionKeyCtl(request LoginRequest) (err error, subscriptionKey string ) {
+func (clt *Client) RefreshUserSubscriptionKeyCtl(request LoginRequest) (err error, userSubscriptionKey string ) {
 	// Send request
 	bodyLogin, errLogin := clt.doRequest("POST", "/user/login", request)
 	if errLogin != nil {
-		return errLogin, nil
+		return errLogin, ""
 	}
 	
 	// Read access token from response
 	var response LoginResponse
-	if errLoginMarshal = json.Unmarshal(bodyLogin, &response); errLoginMarshal != nil {
-		return errLoginMarshal, nil 
+	errLoginMarshal := json.Unmarshal(bodyLogin, &response);
+	if errLoginMarshal != nil {
+		return errLoginMarshal, "" 
 	}
 
 	clt.SetAccessToken(response.AccessToken)
@@ -63,12 +64,13 @@ func (clt *Client) RefreshUserSubscriptionKeyCtl(request LoginRequest) (err erro
 	bodyGetUser, errGetUser := clt.doRequestWithHeaders("GET", "/user/profile", nil, headers)
 
 	if errGetUser != nil {
-		return errGetUser, nil
+		return errGetUser, ""
 	}
 
 	var userResponse UserResponse
-	if errGetUserMarshal = json.Unmarshal(bodyGetUser, &userResponse); errGetUserMarshal != nil {
-		return errGetUserMarshal, nil
+	errGetUserMarshal := json.Unmarshal(bodyGetUser, &userResponse);
+	if errGetUserMarshal != nil {
+		return errGetUserMarshal, ""
 	}
 
 	return nil, userResponse.SubscriptionKey

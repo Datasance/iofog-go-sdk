@@ -83,10 +83,11 @@ func NewAndLogin(opt Options, email, password string) (clt *Client, err error) {
 
 func RefreshUserSubscriptionKey(opt Options, email, password string) (clt *Client, err error, userResponse string) {
 	clt = New(opt)
-	if err, userSubscriptionKey = clt.RefreshUserSubscriptionKeyCtl(LoginRequest{Email: email, Password: password}); err != nil {
-		return err, nil
+	err, userSubscriptionKey := clt.RefreshUserSubscriptionKeyCtl(LoginRequest{Email: email, Password: password});
+	if err != nil {
+		return clt, err, ""
 	}
-	return nil, userSubscriptionKey
+	return clt, nil, userSubscriptionKey
 }
 
 func NewWithToken(opt Options, token string) (clt *Client, err error) {
