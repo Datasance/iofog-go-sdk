@@ -59,9 +59,13 @@ func (clt *Client) RefreshUserSubscriptionKeyCtl(request LoginRequest) (err erro
 
 	headers := map[string]string{
 		"Authorization": clt.GetAccessToken(),
+		"Content-Type": "application/json",
 	}
 
-	bodyGetUser, errGetUser := clt.doRequestWithHeaders("GET", "/user/profile", nil, headers)
+	emptyBody := bytes.NewBuffer([]byte{})
+
+
+	bodyGetUser, errGetUser := clt.doRequestWithHeaders("GET", "/user/profile",emptyBody , headers)
 
 	if errGetUser != nil {
 		return errGetUser, ""
