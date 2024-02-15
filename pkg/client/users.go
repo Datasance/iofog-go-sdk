@@ -41,7 +41,7 @@ func (clt *Client) Login(request LoginRequest) (err error) {
 	return
 }
 
-func (clt *Client) RefreshUserCtl(request LoginRequest) (err error, userResponse UserResponse ) {
+func (clt *Client) RefreshUserSubscriptionKeyCtl(request LoginRequest) (err error, subscriptionKey string ) {
 	// Send request
 	bodyLogin, errLogin := clt.doRequest("POST", "/user/login", request)
 	if errLogin != nil {
@@ -71,7 +71,7 @@ func (clt *Client) RefreshUserCtl(request LoginRequest) (err error, userResponse
 		return errGetUserMarshal, nil
 	}
 
-	return nil, userResponse
+	return nil, userResponse.SubscriptionKey
 
 }
 
