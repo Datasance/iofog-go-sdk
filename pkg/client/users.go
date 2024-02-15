@@ -13,7 +13,10 @@
 
 package client
 
-import "encoding/json"
+import (
+	"encoding/json"
+	"bytes"
+)
 
 func (clt *Client) CreateUser(request User) error {
 	// Send request
