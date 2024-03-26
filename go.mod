@@ -74,4 +74,6 @@ retract (
 	v3.3.6 // Published accidentally.
 	v3.3.7 // Published accidentally.
 	v3.3.8 // Published accidentally.
+	v3.3.9 // Version updated.
+	v3.4.0 // Version updated.
 )

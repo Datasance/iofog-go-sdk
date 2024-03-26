@@ -17,7 +17,7 @@ import (
 	"encoding/json"
 	"bytes"
 )
-
+// create user can be removed!!
 func (clt *Client) CreateUser(request User) error {
 	// Send request
 	if _, err := clt.doRequest("POST", "/user/signup", request); err != nil {
@@ -28,6 +28,18 @@ func (clt *Client) CreateUser(request User) error {
 }
 
 func (clt *Client) Login(request LoginRequest) (err error) {
+
+	// Prompt for OTP
+	promptOTP := func() string {
+		fmt.Println("Enter OTP:")
+		var otp string
+		fmt.Scanln(&otp)
+
+		return otp
+	}
+	otp := promptOTP()
+	request.Totp = otp
+
 	// Send request
 	body, err := clt.doRequest("POST", "/user/login", request)
 	if err != nil {
