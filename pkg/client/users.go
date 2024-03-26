@@ -16,6 +16,7 @@ package client
 import (
 	"encoding/json"
 	"bytes"
+	"fmt"
 )
 // create user can be removed!!
 func (clt *Client) CreateUser(request User) error {
