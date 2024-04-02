@@ -32,12 +32,11 @@ func (clt *Client) CreateUser(request User) error {
 
 func (clt *Client) Login(request LoginRequest) (err error) {
 
-	// Prompt for OTP
+    // Prompt for OTP
     fmt.Println("\n Enter OTP: \n")
     
-    scanner := bufio.NewReader(os.Stdin)
+    reader := bufio.NewReader(os.Stdin)
     otp, err := reader.ReadString('\n')
-    otp := scanner.Text()
     if err != nil {
         return err
     }
