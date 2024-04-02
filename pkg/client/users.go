@@ -16,8 +16,6 @@ package client
 import (
 	"encoding/json"
 	"bytes"
-	"bufio"
-	"os"
 
 )
 // create user can be removed!!
