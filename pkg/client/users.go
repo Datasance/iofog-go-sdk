@@ -36,10 +36,9 @@ func (clt *Client) Login(request LoginRequest) (err error) {
     fmt.Println("\n Enter OTP: \n")
     
     scanner := bufio.NewReader(os.Stdin)
-    scanner.Scan() // Read user input
+    otp, err := reader.ReadString('\n')
     otp := scanner.Text()
-    
-    if err := scanner.Err(); err != nil {
+    if err != nil {
         return err
     }
 
