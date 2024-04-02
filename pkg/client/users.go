@@ -68,7 +68,7 @@ func (clt *Client) RefreshUserSubscriptionKeyCtl(request LoginRequest) (err erro
 		reader := bufio.NewReader(os.Stdin)
 		otp, err := reader.ReadString('\n')
 		if err != nil {
-			return err
+			return err, ""
 		}
 		otp = strings.TrimSpace(otp)
 		request.Totp = otp
