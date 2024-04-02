@@ -19,6 +19,7 @@ import (
 	"bufio"
 	"os"
 	"fmt"
+	"strings"
 )
 // create user can be removed!!
 func (clt *Client) CreateUser(request User) error {
@@ -40,7 +41,7 @@ func (clt *Client) Login(request LoginRequest) (err error) {
     if err != nil {
         return err
     }
-
+	otp = strings.TrimSpace(otp)
     request.Totp = otp
 
 
