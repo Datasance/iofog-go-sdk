@@ -32,7 +32,7 @@ func (clt *Client) Login(request LoginRequest) (err error) {
 
 	// Prompt for OTP
 	promptOTP := func() string {
-		fmt.Println("Enter OTP:")
+		fmt.Println("\n Enter OTP: \n")
 		var otp string
 		fmt.Scanln(&otp)
 
