@@ -78,4 +78,5 @@ retract (
 	v3.4.0 // Version updated.
 	v3.4.1 // Published accidentally.
 	v3.4.3 // Bug fixed.
+	v3.4.4 // Bug fixed.
 )
