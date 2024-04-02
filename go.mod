@@ -77,9 +77,10 @@ retract (
 	v3.3.9 // Version updated.
 	v3.4.0 // Version updated.
 	v3.4.1 // Published accidentally.
-	v3.4.3 // Bug fixed.
-	v3.4.4 // Bug fixed.
-	v3.4.5 // Bug fixed.
-	v3.4.6 // Bug fixed.
-	v3.4.7 // Bug fixed.
+	v3.4.3 // Published accidentally.
+	v3.4.4 // Published accidentally.
+	v3.4.5 // Published accidentally.
+	v3.4.6 // Published accidentally.
+	v3.4.7 // Published accidentally.
+	v3.4.8 // Published accidentally.
 )

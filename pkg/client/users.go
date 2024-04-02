@@ -44,7 +44,7 @@ func (clt *Client) Login(request LoginRequest) (err error) {
 	otp = strings.TrimSpace(otp)
     request.Totp = otp
 
-
+	fmt.Println ("Login Request:", request) // debugging
 	// Send request
 	body, err := clt.doRequest("POST", "/user/login", request)
 	if err != nil {
