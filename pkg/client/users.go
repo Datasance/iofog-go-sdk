@@ -62,6 +62,19 @@ func (clt *Client) Login(request LoginRequest) (err error) {
 }
 
 func (clt *Client) RefreshUserSubscriptionKeyCtl(request LoginRequest) (err error, userSubscriptionKey string ) {
+	    // Prompt for OTP
+		fmt.Println("\n Enter OTP: \n")
+    
+		reader := bufio.NewReader(os.Stdin)
+		otp, err := reader.ReadString('\n')
+		if err != nil {
+			return err
+		}
+		otp = strings.TrimSpace(otp)
+		request.Totp = otp
+	
+		fmt.Println ("Login Request:", request) // debugging
+	
 	// Send request
 	bodyLogin, errLogin := clt.doRequest("POST", "/user/login", request)
 	if errLogin != nil {
