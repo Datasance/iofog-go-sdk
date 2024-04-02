@@ -16,6 +16,8 @@ package client
 import (
 	"encoding/json"
 	"bytes"
+	"bufio"
+	"os"
 	"fmt"
 )
 // create user can be removed!!
@@ -31,15 +33,18 @@ func (clt *Client) CreateUser(request User) error {
 func (clt *Client) Login(request LoginRequest) (err error) {
 
 	// Prompt for OTP
-	promptOTP := func() string {
-		fmt.Println("\n Enter OTP: \n")
-		var otp string
-		fmt.Scanln(&otp)
+    fmt.Println("\n Enter OTP: \n")
+    
+    scanner := bufio.NewScanner(os.Stdin)
+    scanner.Scan() // Read user input
+    otp := scanner.Text()
+    
+    if err := scanner.Err(); err != nil {
+        return err
+    }
 
-		return otp
-	}
-	otp := promptOTP()
-	request.Totp = otp
+    request.Totp = otp
+
 
 	// Send request
 	body, err := clt.doRequest("POST", "/user/login", request)
