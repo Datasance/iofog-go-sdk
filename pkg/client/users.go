@@ -18,8 +18,7 @@ import (
 	"bytes"
 	"bufio"
 	"os"
-	"fmt"
-	"strings"
+
 )
 // create user can be removed!!
 func (clt *Client) CreateUser(request User) error {
@@ -32,19 +31,6 @@ func (clt *Client) CreateUser(request User) error {
 }
 
 func (clt *Client) Login(request LoginRequest) (err error) {
-
-    // Prompt for OTP
-    fmt.Println("\n Enter OTP: \n")
-    
-    reader := bufio.NewReader(os.Stdin)
-    otp, err := reader.ReadString('\n')
-    if err != nil {
-        return err
-    }
-	otp = strings.TrimSpace(otp)
-    request.Totp = otp
-
-	fmt.Println ("Login Request:", request) // debugging
 	// Send request
 	body, err := clt.doRequest("POST", "/user/login", request)
 	if err != nil {
@@ -61,20 +47,7 @@ func (clt *Client) Login(request LoginRequest) (err error) {
 	return
 }
 
-func (clt *Client) RefreshUserSubscriptionKeyCtl(request LoginRequest) (err error, userSubscriptionKey string ) {
-	    // Prompt for OTP
-		fmt.Println("\n Enter OTP: \n")
-    
-		reader := bufio.NewReader(os.Stdin)
-		otp, err := reader.ReadString('\n')
-		if err != nil {
-			return err, ""
-		}
-		otp = strings.TrimSpace(otp)
-		request.Totp = otp
-	
-		fmt.Println ("Login Request:", request) // debugging
-	
+func (clt *Client) RefreshUserSubscriptionKeyCtl(request LoginRequest) (err error, userSubscriptionKey string ) {	
 	// Send request
 	bodyLogin, errLogin := clt.doRequest("POST", "/user/login", request)
 	if errLogin != nil {
