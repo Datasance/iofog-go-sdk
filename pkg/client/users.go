@@ -29,7 +29,6 @@ func (clt *Client) CreateUser(request User) error {
 }
 
 func (clt *Client) Login(request LoginRequest) (err error) {
-	request.Totp = ""
 	// Send request
 	body, err := clt.doRequest("POST", "/user/login", request)
 	if err != nil {
@@ -47,7 +46,6 @@ func (clt *Client) Login(request LoginRequest) (err error) {
 }
 
 func (clt *Client) RefreshUserSubscriptionKeyCtl(request LoginRequest) (err error, userSubscriptionKey string ) {	
-	request.Totp = ""
 	// Send request
 	bodyLogin, errLogin := clt.doRequest("POST", "/user/login", request)
 	if errLogin != nil {
