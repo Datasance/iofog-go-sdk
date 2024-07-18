@@ -15,6 +15,7 @@ package client
 
 import (
 	"bytes"
+	"crypto/tls"
 	"fmt"
 	"io"
 	"net/http"
@@ -68,9 +69,15 @@ func (hd *httpDo) do(method, url string, headers map[string]string, requestBody 
 		request.Header.Set(key, val)
 	}
 
+	// Custom transport to skip SSL certificate verification
+	tr := &http.Transport{
+		TLSClientConfig: &tls.Config{InsecureSkipVerify: true},
+	}
+
 	// Perform request
 	client := &http.Client{
-		Timeout: time.Second * time.Duration(hd.timeout),
+		Transport: tr,
+		Timeout:   time.Second * time.Duration(hd.timeout),
 	}
 
 	httpResp, err := client.Do(request)
