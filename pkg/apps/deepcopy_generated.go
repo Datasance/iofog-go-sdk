@@ -381,6 +381,26 @@ func (in *MicroserviceContainer) DeepCopyInto(out *MicroserviceContainer) {
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
 	}
+	if in.Runtime != nil {
+		in, out := &in.Runtime, &out.Runtime
+		*out = make([]string, len(*in))
+		copy(*out, *in)
+	}
+	if in.Platform != nil {
+		in, out := &in.Platform, &out.Platform
+		*out = make([]string, len(*in))
+		copy(*out, *in)
+	}
+	if in.RunAsUser != nil {
+		in, out := &in.RunAsUser, &out.RunAsUser
+		*out = make([]string, len(*in))
+		copy(*out, *in)
+	}
+	if in.CdiDevices != nil {
+		in, out := &in.CdiDevices, &out.CdiDevices
+		*out = make([]string, len(*in))
+		copy(*out, *in)
+	}
 	return
 }
 
