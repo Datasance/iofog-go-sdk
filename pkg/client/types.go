@@ -247,9 +247,9 @@ type MicroserviceInfo struct {
 	Config            string                          `json:"config"`
 	Name              string                          `json:"name"`
 	RootHostAccess    bool                            `json:"rootHostAccess"`
-	Runtime           []string                        `json:"runtime,omitempty"`
-	Platform          []string                        `json:"platform,omitempty"`
-	RunAsUser         []string                        `json:"runAsUser,omitempty"`
+	Runtime           string                          `json:"runtime,omitempty"`
+	Platform          string                          `json:"platform,omitempty"`
+	RunAsUser         string                          `json:"runAsUser,omitempty"`
 	CdiDevices        []string                        `json:"cdiDevices,omitempty"`
 	LogSize           int                             `json:"logSize"`
 	Delete            bool                            `json:"delete"`

@@ -79,9 +79,9 @@ type MicroserviceContainer struct {
 	ExtraHosts     *[]MicroserviceExtraHost     `yaml:"extraHosts,omitempty" json:"extraHosts,omitempty"`
 	Ports          []MicroservicePortMapping    `yaml:"ports" json:"ports"`
 	RootHostAccess interface{}                  `yaml:"rootHostAccess" json:"rootHostAccess"` // +k8s:deepcopy-gen=ignore
-	Runtime        []string                     `yaml:"runtime,omitempty" json:"runtime,omitempty"`
-	Platform       []string                     `yaml:"platform,omitempty" json:"platform,omitempty"`
-	RunAsUser      []string                     `yaml:"runAsUser,omitempty" json:"runAsUser,omitempty"`
+	Runtime        string                       `yaml:"runtime,omitempty" json:"runtime,omitempty"`
+	Platform       string                       `yaml:"platform,omitempty" json:"platform,omitempty"`
+	RunAsUser      string                       `yaml:"runAsUser,omitempty" json:"runAsUser,omitempty"`
 	CdiDevices     []string                     `yaml:"cdiDevices,omitempty" json:"cdiDevices,omitempty"`
 }
 
