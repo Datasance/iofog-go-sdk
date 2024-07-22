@@ -381,6 +381,11 @@ func (in *MicroserviceContainer) DeepCopyInto(out *MicroserviceContainer) {
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
 	}
+	if in.CdiDevices != nil {
+		in, out := &in.CdiDevices, &out.CdiDevices
+		*out = make([]string, len(*in))
+		copy(*out, *in)
+	}
 	return
 }
 

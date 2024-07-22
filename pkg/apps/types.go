@@ -1,6 +1,6 @@
 /*
  *  *******************************************************************************
- *  * Copyright (c) 2019 Edgeworx, Inc.
+ *  * Copyright (c) 2024 Datasance Teknoloji A.S.
  *  *
  *  * This program and the accompanying materials are made available under the
  *  * terms of the Eclipse Public License v. 2.0 which is available at
@@ -79,6 +79,10 @@ type MicroserviceContainer struct {
 	ExtraHosts     *[]MicroserviceExtraHost     `yaml:"extraHosts,omitempty" json:"extraHosts,omitempty"`
 	Ports          []MicroservicePortMapping    `yaml:"ports" json:"ports"`
 	RootHostAccess interface{}                  `yaml:"rootHostAccess" json:"rootHostAccess"` // +k8s:deepcopy-gen=ignore
+	Runtime        string                       `yaml:"runtime,omitempty" json:"runtime,omitempty"`
+	Platform       string                       `yaml:"platform,omitempty" json:"platform,omitempty"`
+	RunAsUser      string                       `yaml:"runAsUser,omitempty" json:"runAsUser,omitempty"`
+	CdiDevices     []string                     `yaml:"cdiDevices,omitempty" json:"cdiDevices,omitempty"`
 }
 
 // Microservice contains information for configuring a microservice
