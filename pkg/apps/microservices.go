@@ -128,7 +128,7 @@ func (exe *microserviceExecutor) deploy() (newMsvc *client.MicroserviceInfo, err
 
 func (exe *microserviceExecutor) create() (newMsvc *client.MicroserviceInfo, err error) {
 	file := IofogHeader{
-		APIVersion: "datasance.com/v1",
+		APIVersion: "datasance.com/v3",
 		Kind:       MicroserviceKind,
 		Metadata: HeaderMetadata{
 			Name: strings.Join([]string{exe.appName, exe.name}, "/"),
@@ -144,7 +144,7 @@ func (exe *microserviceExecutor) create() (newMsvc *client.MicroserviceInfo, err
 
 func (exe *microserviceExecutor) update() (newMsvc *client.MicroserviceInfo, err error) {
 	file := IofogHeader{
-		APIVersion: "datasance.com/v1",
+		APIVersion: "datasance.com/v3",
 		Kind:       MicroserviceKind,
 		Metadata: HeaderMetadata{
 			Name: strings.Join([]string{exe.appName, exe.name}, "/"),

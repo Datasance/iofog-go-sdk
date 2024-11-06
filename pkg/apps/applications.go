@@ -77,7 +77,7 @@ func (exe *applicationExecutor) init() (err error) {
 
 func (exe *applicationExecutor) create() (err error) {
 	file := IofogHeader{
-		APIVersion: "datasance.com/v1",
+		APIVersion: "datasance.com/v3",
 		Kind:       ApplicationKind,
 		Metadata: HeaderMetadata{
 			Name: exe.name,
@@ -96,7 +96,7 @@ func (exe *applicationExecutor) create() (err error) {
 
 func (exe *applicationExecutor) update() (err error) {
 	file := IofogHeader{
-		APIVersion: "datasance.com/v1",
+		APIVersion: "datasance.com/v3",
 		Kind:       ApplicationKind,
 		Metadata: HeaderMetadata{
 			Name: exe.name,
