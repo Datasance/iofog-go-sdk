@@ -22,10 +22,15 @@ clean: ## Clean the working area and the project
 
 .PHONY: gen
 gen: install-tools ## Generate code
-	@sed -i'' -E "s|//(.*// \+k8s:deepcopy-gen=ignore)|\1|g" pkg/apps/types.go
-	@sed -i'' -E "s|(.*// \+k8s:deepcopy-gen=ignore)|//\1|g" pkg/apps/types.go
-	deepcopy-gen -i ./pkg/apps -o . --go-header-file ./boilerplate.go.txt
-	@sed -i'' -E "s|//(.*// \+k8s:deepcopy-gen=ignore)|\1|g" pkg/apps/types.go
+# @sed -i'' -E "s|//(.*// \+k8s:deepcopy-gen=ignore)|\1|g" pkg/apps/types.go
+# @sed -i'' -E "s|(.*// \+k8s:deepcopy-gen=ignore)|//\1|g" pkg/apps/types.go
+# deepcopy-gen -i ./pkg/apps -o . --go-header-file ./boilerplate.go.txt
+# @sed -i'' -E "s|//(.*// \+k8s:deepcopy-gen=ignore)|\1|g" pkg/apps/types.go
+
+	@sed -i '' -E "s|//(.*// \+k8s:deepcopy-gen=ignore)|\1|g" pkg/apps/types.go
+	@sed -i '' -E "s|(.*// \+k8s:deepcopy-gen=ignore)|//\1|g" pkg/apps/types.go
+	deepcopy-gen --bounding-dirs ./pkg/apps --output-file ./generated.deepcopy.go --go-header-file ./boilerplate.go.txt
+	@sed -i '' -E "s|//(.*// \+k8s:deepcopy-gen=ignore)|\1|g" pkg/apps/types.go
 
 .PHONY: lint
 lint: golangci-lint fmt ## Lint the source
@@ -68,4 +73,4 @@ varexport-%: ; @echo $*=$($*)
 
 .PHONE: install-tools
 install-tools:
-	go install -v k8s.io/code-generator/cmd/deepcopy-gen@v0.26
+	go install -v k8s.io/code-generator/cmd/deepcopy-gen@v0.31.2

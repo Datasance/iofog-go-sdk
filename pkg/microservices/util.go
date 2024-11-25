@@ -76,9 +76,13 @@ func makePostRequest(url, bodyType string, body io.Reader) ([]byte, error) {
 	if err != nil {
 		return nil, err
 	}
-	respBodyBytes := make([]byte, resp.ContentLength)
-	resp.Body.Read(respBodyBytes)
-	resp.Body.Close()
+	defer resp.Body.Close()
+
+	respBodyBytes, err := io.ReadAll(resp.Body)
+	if err != nil {
+		return nil, err
+	}
+
 	if resp.StatusCode == http.StatusBadRequest {
 		return nil, errors.New(string(respBodyBytes))
 	}

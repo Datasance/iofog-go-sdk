@@ -67,28 +67,28 @@ require (
 )
 
 retract (
-    v3.3.2		  // Published accidentally.
-    v3.3.3		  // Published accidentally.
-	v3.3.4		  // Published accidentally.
-	v3.3.5		  // Published accidentally.
-	v3.3.6		  // Published accidentally.
-	v3.3.7		  // Published accidentally.
-	v3.3.8		  // Published accidentally.
-	v3.3.9 		  // Version updated.
-	v3.4.0		  // Version updated.
-	v3.4.1 		  // Published accidentally.
-	v3.4.3 		  // Published accidentally.
-	v3.4.4  	  // Published accidentally.
-	v3.4.5 		  // Published accidentally.
-	v3.4.6		  // Published accidentally.
-	v3.4.7 		  // Published accidentally.
-	v3.4.8 		  // Published accidentally.
-	v3.4.8-beta.1 // beta test .
-	v3.4.8-beta.2 // beta test .
-	v3.4.8-beta.3 // beta test .
-	v3.4.8-beta.4 // beta test .
-	v3.4.8-beta.5 // beta test .
-	v3.4.8-beta.6 // beta test .
-	v3.4.10-alpha1 // test release.
 	v3.4.10-alpha2 // test release.
+	v3.4.10-alpha1 // test release.
+	v3.4.8 // Published accidentally.
+	v3.4.8-beta.6 // beta test .
+	v3.4.8-beta.5 // beta test .
+	v3.4.8-beta.4 // beta test .
+	v3.4.8-beta.3 // beta test .
+	v3.4.8-beta.2 // beta test .
+	v3.4.8-beta.1 // beta test .
+	v3.4.7 // Published accidentally.
+	v3.4.6 // Published accidentally.
+	v3.4.5 // Published accidentally.
+	v3.4.4 // Published accidentally.
+	v3.4.3 // Published accidentally.
+	v3.4.1 // Published accidentally.
+	v3.4.0 // Version updated.
+	v3.3.9 // Version updated.
+	v3.3.8 // Published accidentally.
+	v3.3.7 // Published accidentally.
+	v3.3.6 // Published accidentally.
+	v3.3.5 // Published accidentally.
+	v3.3.4 // Published accidentally.
+	v3.3.3 // Published accidentally.
+	v3.3.2 // Published accidentally.
 )

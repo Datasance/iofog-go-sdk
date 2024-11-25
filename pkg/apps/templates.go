@@ -54,7 +54,7 @@ func (exe *applicationTemplateExecutor) init() (err error) {
 	if exe.controller.Token != "" {
 		exe.client, err = client.NewWithToken(client.Options{BaseURL: exe.baseURL}, exe.controller.Token)
 	} else {
-		exe.client, err = client.NewAndLogin(client.Options{BaseURL: exe.baseURL}, exe.controller.Email, exe.controller.Password)
+		exe.client, err = client.SessionLogin(client.Options{BaseURL: exe.baseURL}, exe.controller.RefreshToken, exe.controller.Email, exe.controller.Password)
 	}
 
 	return err

@@ -13,6 +13,10 @@
 
 package apps
 
+import (
+	"k8s.io/apiextensions-apiserver/pkg/apis/apiextensions"
+)
+
 // HeaderMetadata contains k8s metadata
 // +k8s:deepcopy-gen=true
 type HeaderMetadata struct {
@@ -78,7 +82,7 @@ type MicroserviceContainer struct {
 	Env            *[]MicroserviceEnvironment   `yaml:"env,omitempty" json:"env,omitempty"`
 	ExtraHosts     *[]MicroserviceExtraHost     `yaml:"extraHosts,omitempty" json:"extraHosts,omitempty"`
 	Ports          []MicroservicePortMapping    `yaml:"ports" json:"ports"`
-	RootHostAccess interface{}                  `yaml:"rootHostAccess" json:"rootHostAccess"` // +k8s:deepcopy-gen=ignore
+	RootHostAccess bool                         `yaml:"rootHostAccess" json:"rootHostAccess"`
 	Runtime        string                       `yaml:"runtime,omitempty" json:"runtime,omitempty"`
 	Platform       string                       `yaml:"platform,omitempty" json:"platform,omitempty"`
 	RunAsUser      string                       `yaml:"runAsUser,omitempty" json:"runAsUser,omitempty"`
@@ -97,7 +101,7 @@ type Microservice struct {
 	Flow        *string               `yaml:"flow,omitempty" json:"flow,omitempty"`
 	Application *string               `yaml:"application,omitempty" json:"application,omitempty"`
 	Created     string                `yaml:"created,omitempty" json:"created,omitempty"`
-	Rebuild     interface{}           `yaml:"rebuild,omitempty" json:"rebuild,omitempty"` // +k8s:deepcopy-gen=ignore
+	Rebuild     bool                  `yaml:"rebuild,omitempty" json:"rebuild,omitempty"`
 }
 
 type NestedMap map[string]interface{}
@@ -222,10 +226,10 @@ type ApplicationTemplate struct {
 // TemplateVariable contains a key-value pair
 // +k8s:deepcopy-gen=true
 type TemplateVariable struct {
-	Key          string      `yaml:"key"`
-	Description  string      `yaml:"description"`
-	DefaultValue interface{} `yaml:"defaultValue,omitempty"` // +k8s:deepcopy-gen=ignore
-	Value        interface{} `yaml:"value,omitempty"`        // +k8s:deepcopy-gen=ignore
+	Key          string              `yaml:"key"`
+	Description  string              `yaml:"description"`
+	DefaultValue *apiextensions.JSON `yaml:"defaultValue,omitempty"`
+	Value        *apiextensions.JSON `yaml:"value,omitempty"`
 }
 
 // ApplicationTemplateInfo contains microservice and route details for template
@@ -244,8 +248,9 @@ type Applications struct {
 // IofogController contains informations needed to connect to the controller
 // +k8s:deepcopy-gen=true
 type IofogController struct {
-	Email    string `yaml:"email" json:"email"`
-	Password string `yaml:"password" json:"password"`
-	Endpoint string `yaml:"endpoint" json:"endpoint"`
-	Token    string `yaml:"token" json:"token"`
+	Email        string `yaml:"email" json:"email"`
+	Password     string `yaml:"password" json:"password"`
+	Endpoint     string `yaml:"endpoint" json:"endpoint"`
+	Token        string `yaml:"token" json:"token"`
+	RefreshToken string `yaml:"refreshToken" json:"token"`
 }
