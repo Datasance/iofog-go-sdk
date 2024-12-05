@@ -34,7 +34,7 @@ func (clt *Client) CreateUser(request User) error {
 func (clt *Client) Login(request LoginRequest) (err error) {
 	// Prompt for OTP if not already set
 	if request.Totp == "" {
-		fmt.Print("Enter OTP: ")
+		fmt.Println("Enter OTP: \n")
 		reader := bufio.NewReader(os.Stdin)
 		otp, err := reader.ReadString('\n')
 		if err != nil {
