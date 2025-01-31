@@ -97,6 +97,7 @@ type Microservice struct {
 	Agent       MicroserviceAgent     `yaml:"agent" json:"agent"`
 	Images      *MicroserviceImages   `yaml:"images,omitempty" json:"images,omitempty"`
 	Container   MicroserviceContainer `yaml:"container,omitempty" json:"container,omitempty"`
+	MsRoutes    MsRoutes              `yaml:"msRoutes,omitempty" json:"msRoutes,omitempty"`
 	Config      NestedMap             `yaml:"config" json:"config"`
 	Flow        *string               `yaml:"flow,omitempty" json:"flow,omitempty"`
 	Application *string               `yaml:"application,omitempty" json:"application,omitempty"`
@@ -128,6 +129,12 @@ func deepCopyNestedMap(src, dest NestedMap) {
 type MicroservicePublicPortRouterInfo struct {
 	Port int64  `json:"port"`
 	Host string `json:"host"`
+}
+
+// +k8s:deepcopy-gen=true
+type MsRoutes struct {
+	PubTags      []string `yaml:"pubTags" json:"pubTags,omitempty"`
+	SubTags      []string `yaml:"subTags" json:"subTags,omitempty"`
 }
 
 // +k8s:deepcopy-gen=true
