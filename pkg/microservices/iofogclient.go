@@ -70,7 +70,7 @@ func (client *IoFogClient) GetConfigIntoStruct(config interface{}) error {
 	return client.httpClient.getConfigIntoStruct(config)
 }
 
-func (client *IoFogClient) GetNextMessages() ([]IoMessage, error) {
+func (client *IoFogClient) GetNextMessages() ([]IoMessageReadable, error) {
 	return client.httpClient.getNextMessages()
 }
 
@@ -82,7 +82,7 @@ func (client *IoFogClient) PostMessage(msg *IoMessage) (*PostMessageResponse, er
 	return client.httpClient.postMessage(msg)
 }
 
-func (client *IoFogClient) GetMessagesFromPublishersWithinTimeFrame(query *MessagesQueryParameters) (*TimeFrameMessages, error) {
+func (client *IoFogClient) GetMessagesFromPublishersWithinTimeFrame(query *MessagesQueryParameters) (*TimeFrameReadableMessages, error) {
 	query.ID = client.id
 	return client.httpClient.getMessagesFromPublishersWithinTimeFrame(query)
 }

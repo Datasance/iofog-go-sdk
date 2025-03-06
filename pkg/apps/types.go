@@ -133,8 +133,8 @@ type MicroservicePublicPortRouterInfo struct {
 
 // +k8s:deepcopy-gen=true
 type MsRoutes struct {
-	PubTags      []string `yaml:"pubTags" json:"pubTags,omitempty"`
-	SubTags      []string `yaml:"subTags" json:"subTags,omitempty"`
+	PubTags []string `yaml:"pubTags" json:"pubTags,omitempty"`
+	SubTags []string `yaml:"subTags" json:"subTags,omitempty"`
 }
 
 // +k8s:deepcopy-gen=true

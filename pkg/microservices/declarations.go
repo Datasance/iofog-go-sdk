@@ -80,4 +80,12 @@ type getNextMessagesResponse struct {
 	Messages       []IoMessage `json:"messages"`
 }
 
+type getNextMessagesReadableResponse struct {
+	TimeFrameStart int64               `json:"timeframestart"`
+	TimeFrameEnd   int64               `json:"timeframeend"`
+	Messages       []IoMessageReadable `json:"messages"`
+}
+
 type TimeFrameMessages getNextMessagesResponse
+
+type TimeFrameReadableMessages getNextMessagesReadableResponse
