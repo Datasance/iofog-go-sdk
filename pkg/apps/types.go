@@ -87,6 +87,9 @@ type MicroserviceContainer struct {
 	Platform       string                       `yaml:"platform,omitempty" json:"platform,omitempty"`
 	RunAsUser      string                       `yaml:"runAsUser,omitempty" json:"runAsUser,omitempty"`
 	CdiDevices     []string                     `yaml:"cdiDevices,omitempty" json:"cdiDevices,omitempty"`
+	CapAdd         []string                     `yaml:"capAdd,omitempty" json:"capAdd,omitempty"`
+	CapDrop        []string                     `yaml:"capDrop,omitempty" json:"capDrop,omitempty"`
+	Annotations    NestedMap                    `yaml:"annotations,omitempty" json:"annotations,omitempty"`
 }
 
 // Microservice contains information for configuring a microservice
@@ -126,32 +129,16 @@ func deepCopyNestedMap(src, dest NestedMap) {
 }
 
 // +k8s:deepcopy-gen=true
-type MicroservicePublicPortRouterInfo struct {
-	Port int64  `json:"port"`
-	Host string `json:"host"`
-}
-
-// +k8s:deepcopy-gen=true
 type MsRoutes struct {
 	PubTags []string `yaml:"pubTags" json:"pubTags,omitempty"`
 	SubTags []string `yaml:"subTags" json:"subTags,omitempty"`
 }
 
 // +k8s:deepcopy-gen=true
-type MicroservicePublicPortInfo struct {
-	Schemes  []string                          `json:"schemes"`
-	Links    []string                          `json:"links"`
-	Protocol string                            `json:"protocol"`
-	Enabled  bool                              `json:"enabled"`
-	Router   *MicroservicePublicPortRouterInfo `yaml:"router,omitempty" json:"router,omitempty"`
-}
-
-// +k8s:deepcopy-gen=true
 type MicroservicePortMapping struct {
-	Internal int64                       `json:"internal"`
-	External int64                       `json:"external"`
-	Public   *MicroservicePublicPortInfo `yaml:"public,omitempty" json:"public,omitempty"`
-	Protocol string                      `json:"protocol,omitempty"`
+	Internal int64  `json:"internal"`
+	External int64  `json:"external"`
+	Protocol string `json:"protocol,omitempty"`
 }
 
 // +k8s:deepcopy-gen=true
@@ -164,8 +151,10 @@ type MicroserviceVolumeMapping struct {
 
 // +k8s:deepcopy-gen=true
 type MicroserviceEnvironment struct {
-	Key   string `yaml:"key" json:"key"`
-	Value string `yaml:"value" json:"value"`
+	Key                string `yaml:"key" json:"key"`
+	Value              string `yaml:"value,omitempty" json:"value,omitempty"`
+	ValueFromSecret    string `yaml:"valueFromSecret,omitempty" json:"valueFromSecret,omitempty"`
+	ValueFromConfigMap string `yaml:"valueFromConfigMap,omitempty" json:"valueFromConfigMap,omitempty"`
 }
 
 // +k8s:deepcopy-gen=true
@@ -178,6 +167,8 @@ type MicroserviceExtraHost struct {
 // +k8s:deepcopy-gen=true
 type AgentConfiguration struct {
 	DockerURL                 *string   `yaml:"dockerUrl,omitempty" json:"dockerUrl,omitempty"`
+	ContainerEngine           *string   `yaml:"containerEngine,omitempty" json:"containerEngine,omitempty"`
+	DeploymentType            *string   `yaml:"deploymentType,omitempty" json:"deploymentType,omitempty"`
 	DiskLimit                 *int64    `yaml:"diskLimit,omitempty" json:"diskLimit,omitempty"`
 	DiskDirectory             *string   `yaml:"diskDirectory,omitempty" json:"diskDirectory,omitempty"`
 	MemoryLimit               *int64    `yaml:"memoryLimit,omitempty" json:"memoryLimit,omitempty"`

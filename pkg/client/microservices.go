@@ -165,17 +165,6 @@ func (clt *Client) CreateMicroservicePortMapping(uuid string, portMapping *Micro
 	return
 }
 
-func (clt *Client) GetAllMicroservicePublicPorts() (response []MicroservicePublicPort, err error) {
-	body, err := clt.doRequest("GET", "/microservices/public-ports", nil)
-	if err != nil {
-		return
-	}
-
-	response = make([]MicroservicePublicPort, 0)
-	err = json.Unmarshal(body, &response)
-	return
-}
-
 func mapFromArray(arr []string) map[string]bool {
 	result := make(map[string]bool)
 	for _, str := range arr {
@@ -248,5 +237,11 @@ func (clt *Client) UpdateMicroserviceFromYAML(uuid string, file io.Reader) (*Mic
 // DeleteMicroservice deletes a microservice using Controller REST API
 func (clt *Client) DeleteMicroservice(uuid string) (err error) {
 	_, err = clt.doRequest("DELETE", fmt.Sprintf("/microservices/%s", uuid), nil)
+	return
+}
+
+// RebuildsMicroservice rebuilds a microservice using Controller REST API
+func (clt *Client) RebuildsMicroservice(uuid string) (err error) {
+	_, err = clt.doRequest("PATCH", fmt.Sprintf("/microservices/%s/rebuild", uuid), nil)
 	return
 }
