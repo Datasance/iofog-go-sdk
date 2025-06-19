@@ -44,6 +44,7 @@ type microserviceExecutor struct {
 	appName    string
 	uuid       string
 	client     *client.Client
+	isSystem   bool
 }
 
 func ParseFQMsvcName(fqName string) (appName, name string, err error) {
@@ -101,9 +102,33 @@ func (exe *microserviceExecutor) init() (err error) {
 	if exe.appName == "" {
 		return NewInputError(fmt.Sprintf("Application name missing for microservice %s", exe.name))
 	}
-	listMsvcs, err := exe.client.GetMicroservicesByApplication(exe.appName)
+
+	var listMsvcs *client.MicroserviceListResponse
+
+	// Try regular application first
+	listMsvcs, err = exe.client.GetMicroservicesByApplication(exe.appName)
 	if err != nil {
-		return err
+		// Check if error indicates application not found
+		if strings.Contains(err.Error(), "Invalid application id") {
+			// Try system application
+			systemMsvcs, err := exe.client.GetSystemMicroservicesByApplication(exe.appName)
+			if err != nil {
+				return err
+			}
+			if len(systemMsvcs.Microservices) > 0 {
+				exe.isSystem = true
+				listMsvcs = systemMsvcs
+			} else {
+				return fmt.Errorf("no microservices found in system application")
+			}
+		} else {
+			// Return other types of errors
+			return err
+		}
+	}
+
+	if listMsvcs == nil || len(listMsvcs.Microservices) == 0 {
+		return fmt.Errorf("no microservices found")
 	}
 
 	for i := 0; i < len(listMsvcs.Microservices); i++ {
@@ -114,7 +139,7 @@ func (exe *microserviceExecutor) init() (err error) {
 			}
 		}
 	}
-	return err
+	return nil
 }
 
 func (exe *microserviceExecutor) deploy() (newMsvc *client.MicroserviceInfo, err error) {
@@ -127,6 +152,9 @@ func (exe *microserviceExecutor) deploy() (newMsvc *client.MicroserviceInfo, err
 }
 
 func (exe *microserviceExecutor) create() (newMsvc *client.MicroserviceInfo, err error) {
+	if exe.isSystem {
+		return nil, fmt.Errorf("cannot create system microservice")
+	}
 	file := IofogHeader{
 		APIVersion: "datasance.com/v3",
 		Kind:       MicroserviceKind,
@@ -154,6 +182,9 @@ func (exe *microserviceExecutor) update() (newMsvc *client.MicroserviceInfo, err
 	yamlBytes, err := yaml.Marshal(file)
 	if err != nil {
 		return nil, err
+	}
+	if exe.isSystem {
+		return exe.client.UpdateSystemMicroserviceFromYAML(exe.uuid, bytes.NewReader(yamlBytes))
 	}
 	return exe.client.UpdateMicroserviceFromYAML(exe.uuid, bytes.NewReader(yamlBytes))
 }

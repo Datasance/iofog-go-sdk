@@ -510,3 +510,33 @@ func (clt *Client) RenewCertificate(name string) error {
 	_, err := clt.doRequest("POST", fmt.Sprintf("/certificates/%s/renew", name), nil)
 	return err
 }
+
+func (clt *Client) AttachExecMicroservice(request *AttachExecMicroserviceRequest) error {
+	_, err := clt.doRequest("POST", fmt.Sprintf("/microservices/%s/exec", request.UUID), request)
+	return err
+}
+
+func (clt *Client) DetachExecMicroservice(request *DetachExecMicroserviceRequest) error {
+	_, err := clt.doRequest("DELETE", fmt.Sprintf("/microservices/%s/exec", request.UUID), request)
+	return err
+}
+
+func (clt *Client) AttachExecSystemMicroservice(request *AttachExecMicroserviceRequest) error {
+	_, err := clt.doRequest("POST", fmt.Sprintf("/microservices/system/%s/exec", request.UUID), request)
+	return err
+}
+
+func (clt *Client) DetachExecSystemMicroservice(request *DetachExecMicroserviceRequest) error {
+	_, err := clt.doRequest("DELETE", fmt.Sprintf("/microservices/system/%s/exec", request.UUID), request)
+	return err
+}
+
+func (clt *Client) AttachExecToAgent(request *AttachExecToAgentRequest) error {
+	_, err := clt.doRequest("POST", fmt.Sprintf("/iofog/%s/exec", request.UUID), request)
+	return err
+}
+
+func (clt *Client) DetachExecFromAgent(request *DetachExecFromAgentRequest) error {
+	_, err := clt.doRequest("DELETE", fmt.Sprintf("/iofog/%s/exec", request.UUID), request)
+	return err
+}

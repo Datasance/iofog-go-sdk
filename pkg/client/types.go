@@ -215,14 +215,21 @@ type MicroserviceEnvironmentInfo struct {
 }
 
 type MicroserviceStatusInfo struct {
-	Status            string  `json:"status"`
-	StartTime         int64   `json:"startTime"`
-	OperatingDuration int64   `json:"operatingDuration"`
-	MemoryUsage       float64 `json:"memoryUsage"`
-	CPUUsage          float64 `json:"cpuUsage"`
-	ContainerID       string  `json:"containerId"`
-	Percentage        float64 `json:"percentage"`
-	ErrorMessage      string  `json:"errorMessage"`
+	Status            string   `json:"status"`
+	StartTime         int64    `json:"startTime"`
+	OperatingDuration int64    `json:"operatingDuration"`
+	MemoryUsage       float64  `json:"memoryUsage"`
+	CPUUsage          float64  `json:"cpuUsage"`
+	ContainerID       string   `json:"containerId"`
+	Percentage        float64  `json:"percentage"`
+	IPAddress         string   `json:"ipAddress"`
+	ErrorMessage      string   `json:"errorMessage"`
+	ExecSessionIDs    []string `json:"execSessionIds"`
+}
+
+type MicroserviceExecStatusInfo struct {
+	Status        string `json:"status"`
+	ExecSessionID string `json:"execSessionId"`
 }
 
 type MicroserviceInfo struct {
@@ -230,6 +237,9 @@ type MicroserviceInfo struct {
 	Config            string                          `json:"config"`
 	Name              string                          `json:"name"`
 	RootHostAccess    bool                            `json:"rootHostAccess"`
+	Schedule          int                             `json:"schedule"`
+	PidMode           string                          `json:"pidMode,omitempty"`
+	IpcMode           string                          `json:"ipcMode,omitempty"`
 	Runtime           string                          `json:"runtime,omitempty"`
 	Platform          string                          `json:"platform,omitempty"`
 	RunAsUser         string                          `json:"runAsUser,omitempty"`
@@ -252,6 +262,7 @@ type MicroserviceInfo struct {
 	Env               []MicroserviceEnvironmentInfo   `json:"env"`
 	ExtraHosts        []MicroserviceExtraHost         `json:"extraHosts"`
 	Status            MicroserviceStatusInfo          `json:"status"`
+	ExecStatus        MicroserviceExecStatusInfo      `json:"execStatus"`
 	Images            []CatalogImage                  `json:"images"`
 	PubTags           []string                        `json:"pubTags"`
 	SubTags           []string                        `json:"subTags"`
@@ -372,6 +383,10 @@ type AgentInfo struct {
 	DeviceScanFrequency       float64   `json:"deviceScanFrequency" yaml:"deviceScanFrequency"`
 	BluetoothEnabled          bool      `json:"bluetoothEnabled" yaml:"bluetoothEnabled"`
 	WatchdogEnabled           bool      `json:"watchdogEnabled" yaml:"watchdogEnabled"`
+	GpsMode                   string    `json:"gpsMode" yaml:"gpsMode"`
+	GpsScanFrequency          float64   `json:"gpsScanFrequency" yaml:"gpsScanFrequency"`
+	GpsDevice                 string    `json:"gpsDevice" yaml:"gpsDevice"`
+	EdgeGuardFrequency        float64   `json:"edgeGuardFrequency" yaml:"edgeGuardFrequency"`
 	AbstractedHardwareEnabled bool      `json:"abstractedHardwareEnabled" yaml:"abstractedHardwareEnabled"`
 	CreatedTimeRFC3339        string    `json:"createdAt" yaml:"created"`
 	UpdatedTimeRFC3339        string    `json:"updatedAt" yaml:"updated"`
@@ -440,6 +455,10 @@ type AgentConfiguration struct {
 	DeviceScanFrequency       *float64  `json:"deviceScanFrequency,omitempty" yaml:"deviceScanFrequency"`
 	BluetoothEnabled          *bool     `json:"bluetoothEnabled,omitempty" yaml:"bluetoothEnabled"`
 	WatchdogEnabled           *bool     `json:"watchdogEnabled,omitempty" yaml:"watchdogEnabled"`
+	GpsMode                   *string   `yaml:"gpsMode,omitempty" json:"gpsMode,omitempty"`
+	GpsScanFrequency          *float64  `yaml:"gpsScanFrequency,omitempty" json:"gpsScanFrequency,omitempty"`
+	GpsDevice                 *string   `yaml:"gpsDevice,omitempty" json:"gpsDevice,omitempty"`
+	EdgeGuardFrequency        *float64  `yaml:"edgeGuardFrequency,omitempty" json:"edgeGuardFrequency,omitempty"`
 	AbstractedHardwareEnabled *bool     `json:"abstractedHardwareEnabled,omitempty" yaml:"abstractedHardwareEnabled"`
 	IsSystem                  *bool     `json:"isSystem,omitempty" yaml:"-"` // Can't specify system agent using yaml file.
 	UpstreamRouters           *[]string `json:"upstreamRouters,omitempty" yaml:"upstreamRouters,omitempty"`
@@ -750,4 +769,21 @@ type CertificateListResponse struct {
 
 type CAListResponse struct {
 	CAs []CAInfo `json:"cas"`
+}
+
+type AttachExecMicroserviceRequest struct {
+	UUID string `json:"uuid"`
+}
+
+type DetachExecMicroserviceRequest struct {
+	UUID string `json:"uuid"`
+}
+
+type AttachExecToAgentRequest struct {
+	UUID  string  `json:"uuid"`
+	Image *string `json:"image,omitempty"`
+}
+
+type DetachExecFromAgentRequest struct {
+	UUID string `json:"uuid"`
 }
