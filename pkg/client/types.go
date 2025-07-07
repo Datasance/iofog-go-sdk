@@ -434,6 +434,7 @@ type AgentInfo struct {
 	SecurityStatus            string            `json:"securityStatus" yaml:"securityStatus"`
 	SecurityViolationInfo     string            `json:"securityViolationInfo" yaml:"securityViolationInfo"`
 	WarningMessage            string            `json:"warningMessage" yaml:"warningMessage"`
+	GpsStatus                 string            `json:"gpsStatus" yaml:"gpsStatus"`
 }
 
 type RouterConfig struct {
