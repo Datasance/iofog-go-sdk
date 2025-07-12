@@ -462,6 +462,14 @@ func (in *MicroserviceContainer) DeepCopyInto(out *MicroserviceContainer) {
 	if in.Annotations != nil {
 		out.Annotations = in.Annotations.DeepCopy()
 	}
+	// CpuSetCpus and MemoryLimit are non-pointer types, so we just copy them directly
+	out.CpuSetCpus = in.CpuSetCpus
+	out.MemoryLimit = in.MemoryLimit
+	if in.HealthCheck != nil {
+		in, out := &in.HealthCheck, &out.HealthCheck
+		*out = new(MicroserviceHealthCheck)
+		**out = **in
+	}
 	return
 }
 

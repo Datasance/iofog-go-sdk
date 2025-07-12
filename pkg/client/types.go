@@ -225,6 +225,7 @@ type MicroserviceStatusInfo struct {
 	IPAddress         string   `json:"ipAddress"`
 	ErrorMessage      string   `json:"errorMessage"`
 	ExecSessionIDs    []string `json:"execSessionIds"`
+	HealthStatus      string   `json:"healthStatus"`
 }
 
 type MicroserviceExecStatusInfo struct {
@@ -267,6 +268,18 @@ type MicroserviceInfo struct {
 	PubTags           []string                        `json:"pubTags"`
 	SubTags           []string                        `json:"subTags"`
 	Annotations       string                          `json:"annotations"`
+	CpuSetCpus        string                          `json:"cpuSetCpus"`
+	MemoryLimit       int64                           `json:"memoryLimit"`
+	HealthCheck       *MicroserviceHealthCheck        `json:"healthCheck"`
+}
+
+type MicroserviceHealthCheck struct {
+	Test          interface{} `json:"test"`
+	Interval      *int64      `json:"interval,omitempty"`
+	Timeout       *int64      `json:"timeout,omitempty"`
+	Retries       *int        `json:"retries,omitempty"`
+	StartPeriod   *int64      `json:"startPeriod,omitempty"`
+	StartInterval *int64      `json:"startInterval,omitempty"`
 }
 
 type MicroserviceExtraHost struct {
