@@ -93,19 +93,19 @@ type MicroserviceContainer struct {
 	CapDrop        []string                     `yaml:"capDrop,omitempty" json:"capDrop,omitempty"`
 	Annotations    NestedMap                    `yaml:"annotations,omitempty" json:"annotations,omitempty"`
 	CpuSetCpus     string                       `yaml:"cpuSetCpus,omitempty" json:"cpuSetCpus,omitempty"`
-	MemoryLimit    int64                        `yaml:"memoryLimit,omitempty" json:"memoryLimit,omitempty"`
+	MemoryLimit    *int64                       `yaml:"memoryLimit,omitempty" json:"memoryLimit,omitempty"`
 	HealthCheck    *MicroserviceHealthCheck     `yaml:"healthCheck,omitempty" json:"healthCheck,omitempty"`
 }
 
 // MicroserviceHealthCheck contains information about the health check of a microservice
 // +k8s:deepcopy-gen=true
 type MicroserviceHealthCheck struct {
-	Test          interface{} `yaml:"test" json:"test"`
-	Interval      *int64      `yaml:"interval,omitempty" json:"interval,omitempty"`
-	Timeout       *int64      `yaml:"timeout,omitempty" json:"timeout,omitempty"`
-	Retries       *int        `yaml:"retries,omitempty" json:"retries,omitempty"`
-	StartPeriod   *int64      `yaml:"startPeriod,omitempty" json:"startPeriod,omitempty"`
-	StartInterval *int64      `yaml:"startInterval,omitempty" json:"startInterval,omitempty"`
+	Test          []string `yaml:"test" json:"test"`
+	Interval      *int64   `yaml:"interval,omitempty" json:"interval,omitempty"`
+	Timeout       *int64   `yaml:"timeout,omitempty" json:"timeout,omitempty"`
+	Retries       *int     `yaml:"retries,omitempty" json:"retries,omitempty"`
+	StartPeriod   *int64   `yaml:"startPeriod,omitempty" json:"startPeriod,omitempty"`
+	StartInterval *int64   `yaml:"startInterval,omitempty" json:"startInterval,omitempty"`
 }
 
 // MicroserviceStatusInfo contains information about the status of a microservice
