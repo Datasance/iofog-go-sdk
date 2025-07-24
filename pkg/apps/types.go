@@ -83,26 +83,71 @@ type MicroserviceContainer struct {
 	ExtraHosts     *[]MicroserviceExtraHost     `yaml:"extraHosts,omitempty" json:"extraHosts,omitempty"`
 	Ports          []MicroservicePortMapping    `yaml:"ports" json:"ports"`
 	RootHostAccess bool                         `yaml:"rootHostAccess" json:"rootHostAccess"`
+	PidMode        string                       `yaml:"pidMode,omitempty" json:"pidMode,omitempty"`
+	IpcMode        string                       `yaml:"ipcMode,omitempty" json:"ipcMode,omitempty"`
 	Runtime        string                       `yaml:"runtime,omitempty" json:"runtime,omitempty"`
 	Platform       string                       `yaml:"platform,omitempty" json:"platform,omitempty"`
 	RunAsUser      string                       `yaml:"runAsUser,omitempty" json:"runAsUser,omitempty"`
 	CdiDevices     []string                     `yaml:"cdiDevices,omitempty" json:"cdiDevices,omitempty"`
+	CapAdd         []string                     `yaml:"capAdd,omitempty" json:"capAdd,omitempty"`
+	CapDrop        []string                     `yaml:"capDrop,omitempty" json:"capDrop,omitempty"`
+	Annotations    NestedMap                    `yaml:"annotations,omitempty" json:"annotations,omitempty"`
+	CpuSetCpus     string                       `yaml:"cpuSetCpus,omitempty" json:"cpuSetCpus,omitempty"`
+	MemoryLimit    *int64                       `yaml:"memoryLimit,omitempty" json:"memoryLimit,omitempty"`
+	HealthCheck    *MicroserviceHealthCheck     `yaml:"healthCheck,omitempty" json:"healthCheck,omitempty"`
+}
+
+// MicroserviceHealthCheck contains information about the health check of a microservice
+// +k8s:deepcopy-gen=true
+type MicroserviceHealthCheck struct {
+	Test          []string `yaml:"test" json:"test"`
+	Interval      *int64   `yaml:"interval,omitempty" json:"interval,omitempty"`
+	Timeout       *int64   `yaml:"timeout,omitempty" json:"timeout,omitempty"`
+	Retries       *int     `yaml:"retries,omitempty" json:"retries,omitempty"`
+	StartPeriod   *int64   `yaml:"startPeriod,omitempty" json:"startPeriod,omitempty"`
+	StartInterval *int64   `yaml:"startInterval,omitempty" json:"startInterval,omitempty"`
+}
+
+// MicroserviceStatusInfo contains information about the status of a microservice
+// +k8s:deepcopy-gen=true
+type MicroserviceStatusInfo struct {
+	Status            string   `yaml:"status" json:"status"`
+	StartTime         int64    `yaml:"startTime" json:"startTime"`
+	OperatingDuration int64    `yaml:"operatingDuration" json:"operatingDuration"`
+	MemoryUsage       float64  `yaml:"memoryUsage" json:"memoryUsage"`
+	CPUUsage          float64  `yaml:"cpuUsage" json:"cpuUsage"`
+	ContainerID       string   `yaml:"containerId" json:"containerId"`
+	Percentage        float64  `yaml:"percentage" json:"percentage"`
+	IPAddress         string   `yaml:"ipAddress" json:"ipAddress"`
+	ErrorMessage      string   `yaml:"errorMessage" json:"errorMessage"`
+	ExecSessionIDs    []string `yaml:"execSessionIds" json:"execSessionIds"`
+	HealthStatus      string   `yaml:"healthStatus" json:"healthStatus"`
+}
+
+// MicroserviceExecStatusInfo contains information about the exec status of a microservice
+// +k8s:deepcopy-gen=true
+type MicroserviceExecStatusInfo struct {
+	Status        string `yaml:"status" json:"status"`
+	ExecSessionID string `yaml:"execSessionId" json:"execSessionId"`
 }
 
 // Microservice contains information for configuring a microservice
 // +k8s:deepcopy-gen=true
 type Microservice struct {
-	UUID        string                `yaml:"uuid" json:"uuid"`
-	Name        string                `yaml:"name" json:"name"`
-	Agent       MicroserviceAgent     `yaml:"agent" json:"agent"`
-	Images      *MicroserviceImages   `yaml:"images,omitempty" json:"images,omitempty"`
-	Container   MicroserviceContainer `yaml:"container,omitempty" json:"container,omitempty"`
-	MsRoutes    MsRoutes              `yaml:"msRoutes,omitempty" json:"msRoutes,omitempty"`
-	Config      NestedMap             `yaml:"config" json:"config"`
-	Flow        *string               `yaml:"flow,omitempty" json:"flow,omitempty"`
-	Application *string               `yaml:"application,omitempty" json:"application,omitempty"`
-	Created     string                `yaml:"created,omitempty" json:"created,omitempty"`
-	Rebuild     bool                  `yaml:"rebuild,omitempty" json:"rebuild,omitempty"`
+	UUID        string                     `yaml:"uuid" json:"uuid"`
+	Name        string                     `yaml:"name" json:"name"`
+	Agent       MicroserviceAgent          `yaml:"agent" json:"agent"`
+	Images      *MicroserviceImages        `yaml:"images,omitempty" json:"images,omitempty"`
+	Container   MicroserviceContainer      `yaml:"container,omitempty" json:"container,omitempty"`
+	MsRoutes    MsRoutes                   `yaml:"msRoutes,omitempty" json:"msRoutes,omitempty"`
+	Schedule    int                        `yaml:"schedule" json:"schedule"`
+	Config      NestedMap                  `yaml:"config" json:"config"`
+	Flow        *string                    `yaml:"flow,omitempty" json:"flow,omitempty"`
+	Application *string                    `yaml:"application,omitempty" json:"application,omitempty"`
+	Created     string                     `yaml:"created,omitempty" json:"created,omitempty"`
+	Rebuild     bool                       `yaml:"rebuild,omitempty" json:"rebuild,omitempty"`
+	Status      MicroserviceStatusInfo     `yaml:"status,omitempty" json:"status,omitempty"`
+	ExecStatus  MicroserviceExecStatusInfo `yaml:"execStatus,omitempty" json:"execStatus,omitempty"`
 }
 
 type NestedMap map[string]interface{}
@@ -126,32 +171,16 @@ func deepCopyNestedMap(src, dest NestedMap) {
 }
 
 // +k8s:deepcopy-gen=true
-type MicroservicePublicPortRouterInfo struct {
-	Port int64  `json:"port"`
-	Host string `json:"host"`
-}
-
-// +k8s:deepcopy-gen=true
 type MsRoutes struct {
 	PubTags []string `yaml:"pubTags" json:"pubTags,omitempty"`
 	SubTags []string `yaml:"subTags" json:"subTags,omitempty"`
 }
 
 // +k8s:deepcopy-gen=true
-type MicroservicePublicPortInfo struct {
-	Schemes  []string                          `json:"schemes"`
-	Links    []string                          `json:"links"`
-	Protocol string                            `json:"protocol"`
-	Enabled  bool                              `json:"enabled"`
-	Router   *MicroservicePublicPortRouterInfo `yaml:"router,omitempty" json:"router,omitempty"`
-}
-
-// +k8s:deepcopy-gen=true
 type MicroservicePortMapping struct {
-	Internal int64                       `json:"internal"`
-	External int64                       `json:"external"`
-	Public   *MicroservicePublicPortInfo `yaml:"public,omitempty" json:"public,omitempty"`
-	Protocol string                      `json:"protocol,omitempty"`
+	Internal int64  `json:"internal"`
+	External int64  `json:"external"`
+	Protocol string `json:"protocol,omitempty"`
 }
 
 // +k8s:deepcopy-gen=true
@@ -164,8 +193,10 @@ type MicroserviceVolumeMapping struct {
 
 // +k8s:deepcopy-gen=true
 type MicroserviceEnvironment struct {
-	Key   string `yaml:"key" json:"key"`
-	Value string `yaml:"value" json:"value"`
+	Key                string `yaml:"key" json:"key"`
+	Value              string `yaml:"value,omitempty" json:"value,omitempty"`
+	ValueFromSecret    string `yaml:"valueFromSecret,omitempty" json:"valueFromSecret,omitempty"`
+	ValueFromConfigMap string `yaml:"valueFromConfigMap,omitempty" json:"valueFromConfigMap,omitempty"`
 }
 
 // +k8s:deepcopy-gen=true
@@ -178,6 +209,8 @@ type MicroserviceExtraHost struct {
 // +k8s:deepcopy-gen=true
 type AgentConfiguration struct {
 	DockerURL                 *string   `yaml:"dockerUrl,omitempty" json:"dockerUrl,omitempty"`
+	ContainerEngine           *string   `yaml:"containerEngine,omitempty" json:"containerEngine,omitempty"`
+	DeploymentType            *string   `yaml:"deploymentType,omitempty" json:"deploymentType,omitempty"`
 	DiskLimit                 *int64    `yaml:"diskLimit,omitempty" json:"diskLimit,omitempty"`
 	DiskDirectory             *string   `yaml:"diskDirectory,omitempty" json:"diskDirectory,omitempty"`
 	MemoryLimit               *int64    `yaml:"memoryLimit,omitempty" json:"memoryLimit,omitempty"`
@@ -188,11 +221,15 @@ type AgentConfiguration struct {
 	StatusFrequency           *float64  `yaml:"statusFrequency,omitempty" json:"statusFrequency,omitempty"`
 	ChangeFrequency           *float64  `yaml:"changeFrequency,omitempty" json:"changeFrequency,omitempty"`
 	DeviceScanFrequency       *float64  `yaml:"deviceScanFrequency,omitempty" json:"deviceScanFrequency,omitempty"`
+	GpsMode                   *string   `yaml:"gpsMode,omitempty" json:"gpsMode,omitempty"`
+	GpsScanFrequency          *float64  `yaml:"gpsScanFrequency,omitempty" json:"gpsScanFrequency,omitempty"`
+	GpsDevice                 *string   `yaml:"gpsDevice,omitempty" json:"gpsDevice,omitempty"`
+	EdgeGuardFrequency        *float64  `yaml:"edgeGuardFrequency,omitempty" json:"edgeGuardFrequency,omitempty"`
 	BluetoothEnabled          *bool     `yaml:"bluetoothEnabled,omitempty" json:"bluetoothEnabled,omitempty"`
 	WatchdogEnabled           *bool     `yaml:"watchdogEnabled,omitempty" json:"watchdogEnabled,omitempty"`
 	AbstractedHardwareEnabled *bool     `yaml:"abstractedHardwareEnabled,omitempty" json:"abstractedHardwareEnabled,omitempty"`
 	RouterMode                *string   `yaml:"routerMode,omitempty" json:"routerMode,omitempty"`           // [edge, interior, none], default: edge
-	RouterPort                *int      `yaml:"routerPort,omitempty" json:"routerPort,omitempty"`           // default: 5672
+	RouterPort                *int      `yaml:"routerPort,omitempty" json:"routerPort,omitempty"`           // default: 5671
 	UpstreamRouters           *[]string `yaml:"upstreamRouters,omitempty" json:"upstreamRouters,omitempty"` // ignored if routerMode: none
 	NetworkRouter             *string   `yaml:"networkRouter,omitempty" json:"networkRouter,omitempty"`     // required if routerMone: none
 }

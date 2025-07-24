@@ -19,13 +19,3 @@ const (
 	TCP  = "tcp"
 	HTTP = "http"
 )
-
-func (clt *Client) PutPublicPortHost(protocol Protocol, host string) (err error) {
-	_, err = clt.doRequest("PUT", "/config", newPublicPortHostRequest(protocol, host))
-	return
-}
-
-func (clt *Client) PutDefaultProxy(address string) (err error) {
-	_, err = clt.doRequest("PUT", "/config", newDefaultProxyRequest(address))
-	return
-}

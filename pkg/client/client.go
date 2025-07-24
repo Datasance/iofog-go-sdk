@@ -44,7 +44,7 @@ type Options struct {
 
 func New(opt Options) *Client {
 	if opt.Timeout == 0 {
-		opt.Timeout = 5
+		opt.Timeout = 10
 	}
 	retries := GlobalRetriesPolicy
 	if opt.Retries != nil {
