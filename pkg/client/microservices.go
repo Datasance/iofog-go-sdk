@@ -324,3 +324,15 @@ func (clt *Client) RebuildsSystemMicroservice(uuid string) (err error) {
 	_, err = clt.doRequest("PATCH", fmt.Sprintf("/microservices/system/%s/rebuild", uuid), nil)
 	return
 }
+
+// StartMicroservice starts a microservice using Controller REST API
+func (clt *Client) StartMicroservice(uuid string) (err error) {
+	_, err = clt.doRequest("PATCH", fmt.Sprintf("/microservices/%s/start", uuid), nil)
+	return
+}
+
+// StopMicroservice stops a microservice using Controller REST API
+func (clt *Client) StopMicroservice(uuid string) (err error) {
+	_, err = clt.doRequest("PATCH", fmt.Sprintf("/microservices/%s/stop", uuid), nil)
+	return
+}
